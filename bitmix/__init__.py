@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 # API documentation: https://bitmix.biz/en/pages/api
 
@@ -25,9 +25,6 @@ DEFAULT_FEE = float('2.{}'.format(randint(1, 9)))
 DEFAULT_RETRY = False
 # Minutes
 DEFAULT_DELAY = randint(10, 70)
-
-# https://bitmix.biz/en/pages/faq#collapselimits
-MINAMOUNT = 0.005
 
 HEADERS = {'Accept': 'application/json'}
 
@@ -85,23 +82,21 @@ def api_request(url, json_params=None, retry=False):
 @cli.cmd_arg('--currency', type=str, required=True)
 @cli.cmd_arg('--output_address', type=str, required=True)
 @cli.cmd_arg('--endpoint', type=str, default=DEFAULT_ENDPOINT)
-def _mix_terminal(currency, output_address, endpoint):
+def _mix_terminal(currency, output_address, endpoint=DEFAULT_ENDPOINT):
     output = mix(currency=currency,
                  output_address=output_address,
                  endpoint=endpoint)
     address = output['input_address']
     id = output['id']
-    minamount = MINAMOUNT
 
     uri = '{}:{}'.format(currency, address)
     qr = pyqrcode.create(uri).terminal(module_color='black',
                                        background='white',
                                        quiet_zone=1)
     letter = letter_of_guarantee(id)
-    msg = '{}\n{}\nMinimum: {} ID: {}\n{}'
+    msg = '{}\n{}\nID: {}\n{}'
     terminal_output = msg.format(qr,
                                  uri,
-                                 minamount,
                                  id,
                                  letter)
     return terminal_output
