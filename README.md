@@ -10,6 +10,10 @@
 
 * `bitmix check (ID from previous output)`
 
+## Screenshot
+
+![bitmix CLI screenshot](https://pic8.co/sh/PwenHO.png)
+
 # Licence
 
 [Unlicense/Public domain](LICENSE.txt)

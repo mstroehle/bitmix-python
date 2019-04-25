@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 # API documentation: https://bitmix.biz/en/pages/api
 
@@ -86,14 +86,14 @@ def _mix_terminal(currency, output_address, endpoint=DEFAULT_ENDPOINT):
     output = mix(currency=currency,
                  output_address=output_address,
                  endpoint=endpoint)
-    address = output['input_address']
+    address = output['address']
     id = output['id']
 
     uri = '{}:{}'.format(currency, address)
     qr = pyqrcode.create(uri).terminal(module_color='black',
                                        background='white',
                                        quiet_zone=1)
-    letter = letter_of_guarantee(id)
+    letter = letter_of_guarantee(id, endpoint=endpoint)
     msg = '{}\n{}\nID: {}\n{}'
     terminal_output = msg.format(qr,
                                  uri,
@@ -113,6 +113,8 @@ def mix(currency,
     currency must be one of: bitcoin
     output_address is destination for mixed coins.
     affiliate is None or string.
+
+    output is a dict containing id and address.
     """
     validate.currency(currency)
 
@@ -126,7 +128,9 @@ def mix(currency,
     output = api_request(url=url, json_params=json_params, retry=retry)
     if not isinstance(output, dict):
         raise ValueError(output)
-    return output
+    output_dict = {'id': output['id'],
+                   'address': output['input_address']}
+    return output_dict
 
 
 @cli.cmd
