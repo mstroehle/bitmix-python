@@ -1,4 +1,4 @@
-# Python 3 library for https://bitmix.biz / http://bitmixbizymuphkc.onion
+# Python 3 library for [bitmix.biz](https://bitmix.biz/?ref=1555109354-3YjJ-MfCa-aLkH) / [bitmix.biz's .onion](http://bitmixbizymuphkc.onion/?ref=1555109354-3YjJ-MfCa-aLkH)
 
 ## Installation
 
